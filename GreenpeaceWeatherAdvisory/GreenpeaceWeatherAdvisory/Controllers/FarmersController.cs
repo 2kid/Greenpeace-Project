@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using Chikka_Test.Models;
+using GreenpeaceWeatherAdvisory.Models;
 
-namespace Chikka_Test.Controllers
+namespace GreenpeaceWeatherAdvisory.Controllers
 {
+    [Authorize]
     public class FarmersController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -124,20 +125,20 @@ namespace Chikka_Test.Controllers
         }
 
         // GET: ContactDetails/AddContact
-        public ActionResult AddContact(int id)
+        public ActionResult AddContact(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Farmer farmer = db.Farmers.Find(id);
+            Farmer farmer = db.Farmers.Find(id.Value);
             if (farmer == null)
             {
                 return HttpNotFound();
             }
 
             ContactDetail contactDetail = new ContactDetail();
-            contactDetail.FarmerId = id;
+            contactDetail.FarmerId = id.Value;
 
             return View(contactDetail);
         }

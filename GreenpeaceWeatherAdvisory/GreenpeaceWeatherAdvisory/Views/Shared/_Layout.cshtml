@@ -21,9 +21,16 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("Advisories", "Index", "Advisories")</li>
+                    <li>@Html.ActionLink("Farmers", "Index", "Farmers")</li>
+                    <li>@Html.ActionLink("Mobile Numbers", "Index", "MobileNumbers")</li>
+                    
+                   @if(User.IsInRole("SuperAdmin")||User.IsInRole("Admin")){
+                     <li>@Html.ActionLink("Admins", "RegisterIndex", "Account")</li>
+                     <li>@Html.ActionLink("Staffs", "Index", "RegisterStaff")</li>  
+                       }
+
+                       
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -34,6 +41,7 @@
         <hr />
         <footer>
             <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <!-- Therence John M. Resabal, Ahmed A. Masahud, Allen Moses B. Marzan and Sheila Renei Gomez are awesome! -->
         </footer>
     </div>
 

@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using Chikka_Test.Models;
+using GreenpeaceWeatherAdvisory.Models;
 
-namespace Chikka_Test.Controllers
+namespace GreenpeaceWeatherAdvisory.Controllers
 {
+    [Authorize]
     public class RegionsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace Chikka_Test.Controllers
+namespace GreenpeaceWeatherAdvisory.Controllers
 {
     public class HomeController : Controller
     {

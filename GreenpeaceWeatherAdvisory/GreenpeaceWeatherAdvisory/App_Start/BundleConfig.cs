@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Optimization;
 
-namespace Chikka_Test
+namespace GreenpeaceWeatherAdvisory
 {
     public class BundleConfig
     {

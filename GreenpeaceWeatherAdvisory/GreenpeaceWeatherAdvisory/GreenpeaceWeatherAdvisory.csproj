@@ -161,6 +161,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdvisoriesController.cs" />
     <Compile Include="Controllers\AlertController.cs" />
     <Compile Include="Controllers\ChikkaController.cs" />
     <Compile Include="Controllers\FarmersController.cs" />
@@ -172,20 +173,13 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helper.cs" />
-    <Compile Include="Migrations\201410100732198_init.cs" />
-    <Compile Include="Migrations\201410100732198_init.Designer.cs">
-      <DependentUpon>201410100732198_init.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201410100757486_init1.cs" />
-    <Compile Include="Migrations\201410100757486_init1.Designer.cs">
-      <DependentUpon>201410100757486_init1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201410100852415_init2.cs" />
-    <Compile Include="Migrations\201410100852415_init2.Designer.cs">
-      <DependentUpon>201410100852415_init2.cs</DependentUpon>
+    <Compile Include="Migrations\201410071458584_init.cs" />
+    <Compile Include="Migrations\201410071458584_init.Designer.cs">
+      <DependentUpon>201410071458584_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Advisory.cs" />
     <Compile Include="Models\ChikkaModels.cs" />
     <Compile Include="Models\DBContext.cs" />
     <Compile Include="Models\Farmer.cs" />
@@ -275,13 +269,9 @@
     <Content Include="packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll" />
     <Content Include="packages\Modernizr.2.6.2\Content\Scripts\modernizr-2.6.2.js" />
     <Content Include="packages\Newtonsoft.Json.6.0.3\lib\net20\Newtonsoft.Json.dll" />
-    <Content Include="packages\Newtonsoft.Json.6.0.3\lib\net20\Newtonsoft.Json.xml">
-      <SubType>Designer</SubType>
-    </Content>
+    <Content Include="packages\Newtonsoft.Json.6.0.3\lib\net20\Newtonsoft.Json.xml" />
     <Content Include="packages\Newtonsoft.Json.6.0.3\lib\net35\Newtonsoft.Json.dll" />
-    <Content Include="packages\Newtonsoft.Json.6.0.3\lib\net35\Newtonsoft.Json.xml">
-      <SubType>Designer</SubType>
-    </Content>
+    <Content Include="packages\Newtonsoft.Json.6.0.3\lib\net35\Newtonsoft.Json.xml" />
     <Content Include="packages\Newtonsoft.Json.6.0.3\lib\net40\Newtonsoft.Json.dll" />
     <Content Include="packages\Newtonsoft.Json.6.0.3\lib\net40\Newtonsoft.Json.xml" />
     <Content Include="packages\Newtonsoft.Json.6.0.3\lib\net45\Newtonsoft.Json.dll" />
@@ -405,6 +395,8 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Advisories\Create.cshtml" />
+    <Content Include="Views\Advisories\Index.cshtml" />
     <Content Include="Views\Farmers\Create.cshtml" />
     <Content Include="Views\Farmers\Delete.cshtml" />
     <Content Include="Views\Farmers\Details.cshtml" />
@@ -442,14 +434,8 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201410100732198_init.resx">
-      <DependentUpon>201410100732198_init.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201410100757486_init1.resx">
-      <DependentUpon>201410100757486_init1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201410100852415_init2.resx">
-      <DependentUpon>201410100852415_init2.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201410071458584_init.resx">
+      <DependentUpon>201410071458584_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
