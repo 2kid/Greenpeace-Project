@@ -3,21 +3,39 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
+using Chikka_Test;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace GreenpeaceWeatherAdvisory.Models
+namespace Chikka_Test.Models
 {
     public class Region
-   {
-        [Key]
+    {
         public int RegionId { get; set; }
         [Required]
         public string Name { get; set; }
     }
 
+    public class Farmer
+    {
+        public int FarmerId { get; set; }
+        [Required]
+        [Display(Name="Last Name")]
+        public string LastName { get; set; }
+        [Required]
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+        [Required]
+        [Display(Name = "Middle Name")]
+        public string MiddleName { get; set; }
+        [Required]
+        public int RegionId { get; set; }
+
+        [ForeignKey("RegionId")]
+        public virtual Region Region { get; set; }
+    }
+
     public class ContactDetail
     {
-        [Key]
         public int ContactDetailId { get; set; }
         [Required]
         [Display(Name = "Mobile Number")]
@@ -31,7 +49,6 @@ namespace GreenpeaceWeatherAdvisory.Models
 
     public class ChikkaMessage
     {
-        [Key]
         public int ChikkaMessageId { get; set; }
         [Required]
         public string Message { get; set; }
@@ -45,7 +62,6 @@ namespace GreenpeaceWeatherAdvisory.Models
 
     public class ChikkaSendRequestVM
     {
-        [Key]
         public int RegionId { get; set; }
         public string Message { get; set; }
 

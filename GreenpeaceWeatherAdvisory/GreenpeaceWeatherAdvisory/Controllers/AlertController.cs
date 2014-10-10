@@ -7,12 +7,11 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Chikka_Test.Models;
 using System.IO;
-using GreenpeaceWeatherAdvisory.Models;
 
-namespace GreenpeaceWeatherAdvisory.Controllers
+namespace Chikka_Test.Controllers
 {
-    [Authorize]
     public class AlertController : Controller
     {
         ApplicationDbContext db = new ApplicationDbContext();
@@ -36,45 +35,56 @@ namespace GreenpeaceWeatherAdvisory.Controllers
                 foreach (ContactDetail Contact in contactDetail)
                 {
                     ChikkaMessage message = new ChikkaMessage();
+                    bool failedSms = false;
                     message.ContactId = Contact.ContactDetailId;
                     message.Message = vm.Message;
                     message.Status = "Pending";
                     db.ChikkaMessages.Add(message);
 
                     message = null;
-                   // db.SaveChanges();
+                    db.SaveChanges();
                     message = db.ChikkaMessages.OrderByDescending(m => m.ChikkaMessageId).First();
 
                     try
                     {
                         wc.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
                         string HtmlResult = wc.UploadString(Helper.Chikka.RequestUrl, vm.ParameterString(Contact.MobileNumber, message.ChikkaMessageId));
+
+                        message.Status = "Success";
+                        db.Entry(message).State = EntityState.Modified;
+                        await db.SaveChangesAsync();
                     }
-                    catch (WebException exception)
+                    catch (WebException e)
                     {
-                        string responseText;
+                        failedSms = true;
+                        string exceptionMessage = e.Message;
+                        //string responseText;
 
-                        if (exception.Response != null)
-                        {
-                            var responseStream = exception.Response.GetResponseStream();
+                        //if (exception.Response != null)
+                        //{
+                        //    var responseStream = exception.Response.GetResponseStream();
 
-                            if (responseStream != null)
-                            {
-                                using (var reader = new StreamReader(responseStream))
-                                {
-                                    responseText = reader.ReadToEnd();
-                                    
-                                }
-                            }
-                        }
+                        //    if (responseStream != null)
+                        //    {
+                        //        using (var reader = new StreamReader(responseStream))
+                        //        {
+                        //            responseText = reader.ReadToEnd();
+
+                        //        }
+                        //    }
+                        //}
                     }
 
-                    //
+                    // Failed
+
+                    if (failedSms)
+                    {
+                        db.Entry(message).State = EntityState.Modified;
+                        await db.SaveChangesAsync();
+                    }
 
                 }
-                //db.ChikkaMessages.Add();
-                await db.SaveChangesAsync();
-                //return RedirectToAction("Result");
+                
                 return RedirectToAction("Index", "Home");
             }
 

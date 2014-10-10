@@ -7,13 +7,13 @@ namespace GreenpeaceWeatherAdvisory.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.1-30610")]
-    public sealed partial class init : IMigrationMetadata
+    public sealed partial class init2 : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(init));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(init2));
         
         string IMigrationMetadata.Id
         {
-            get { return "201410071458584_init"; }
+            get { return "201410100852415_init2"; }
         }
         
         string IMigrationMetadata.Source

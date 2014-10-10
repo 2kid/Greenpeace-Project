@@ -10,11 +10,9 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Owin;
-using GreenpeaceWeatherAdvisory;
-using GreenPeaceWeatherAdvisory.Models;
-using GreenpeaceWeatherAdvisory.Models;
+using Chikka_Test.Models;
 
-namespace GreenPeaceWeatherAdvisory.Controllers
+namespace Chikka_Test.Controllers
 {
     [Authorize]
     public class AccountController : Controller
@@ -59,7 +57,7 @@ namespace GreenPeaceWeatherAdvisory.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await UserManager.FindAsync(model.Username, model.Password);
+                var user = await UserManager.FindAsync(model.Email, model.Password);
                 if (user != null)
                 {
                     await SignInAsync(user, model.RememberMe);
@@ -480,7 +478,7 @@ namespace GreenPeaceWeatherAdvisory.Controllers
             }
         }
 
-        private async Task SignInAsync(GreenpeaceWeatherAdvisory.Models.ApplicationUser user, bool isPersistent)
+        private async Task SignInAsync(ApplicationUser user, bool isPersistent)
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie);
             AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = isPersistent }, await user.GenerateUserIdentityAsync(UserManager));

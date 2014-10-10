@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNet.Identity.EntityFramework;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace GreenPeaceWeatherAdvisory.Models
+namespace Chikka_Test.Models
 {
     public class ExternalLoginConfirmationViewModel
     {
@@ -35,11 +34,13 @@ namespace GreenPeaceWeatherAdvisory.Models
         [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
     }
+
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "Username")]
-        public string Username { get; set; }
+        [EmailAddress]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
@@ -49,14 +50,15 @@ namespace GreenPeaceWeatherAdvisory.Models
         [Display(Name = "Remember me?")]
         public bool RememberMe { get; set; }
     }
+
     public class RegisterViewModel
     {
-          [Key]
         [Required]
-        [Display(Name = "Username")]
-        public string Username { get; set; }
+        [EmailAddress]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
 
-     //   [Required]
+        [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
@@ -66,15 +68,7 @@ namespace GreenPeaceWeatherAdvisory.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
-
-        [Display(Name = "Email")]
-        public string Email { get; set; }
-
-        [Display(Name = "First Name")]
-        public string FirstName { get; set; }
-
-        [Display(Name = "Last Name")]
-        public string LastName { get; set; }    }
+    }
 
     public class ResetPasswordViewModel
     {
@@ -103,42 +97,5 @@ namespace GreenPeaceWeatherAdvisory.Models
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
-    }
-
-    public class ApplicationRole : IdentityRole
-    {
-        public ApplicationRole() : base() { }
-        public ApplicationRole(string name, string description)
-            : base(name)
-        {
-            this.Description = description;
-        }
-        public virtual string Description { get; set; }
-    }
-
-    // Used to display a single role with a checkbox, within a list structure:
-    public class SelectRoleEditorViewModel
-    {
-        public SelectRoleEditorViewModel() { }
-
-
-        // Update this to accept an argument of type ApplicationRole:
-        public SelectRoleEditorViewModel(ApplicationRole role)
-        {
-            this.RoleName = role.Name;
-
-            // Assign the new Descrption property:
-            this.Description = role.Description;
-        }
-
-
-        public bool Selected { get; set; }
-        [Key]
-        public int ID { get; set; }
-        [Required]
-        public string RoleName { get; set; }
-
-        // Add the new Description property:
-        public string Description { get; set; }
     }
 }

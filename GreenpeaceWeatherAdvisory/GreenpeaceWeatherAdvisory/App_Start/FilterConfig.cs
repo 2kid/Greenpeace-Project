@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Mvc;
 
-namespace GreenpeaceWeatherAdvisory
+namespace Chikka_Test
 {
     public class FilterConfig
     {

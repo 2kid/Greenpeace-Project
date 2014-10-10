@@ -1,7 +1,8 @@
-﻿@model GreenpeaceWeatherAdvisory.Models.Farmer
+﻿@model Chikka_Test.Models.Farmer
 
 @{
     ViewBag.Title = "Details";
+    List<Chikka_Test.Models.ContactDetail> ContactList = ViewBag.ContactDetails;
 }
 
 <h2>Details</h2>
@@ -10,33 +11,41 @@
     <h4>Farmer</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.LastName)
-        </dt>
 
+        <dt>
+            Name
+        </dt>
         <dd>
-            @Html.DisplayFor(model => model.LastName)
+            @Html.DisplayFor(model => model.LastName), @Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.MiddleName)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.FirstName)
+            Region
         </dt>
-
         <dd>
-            @Html.DisplayFor(model => model.FirstName)
+            @Html.DisplayFor(model => model.Region.Name)
         </dd>
-
+       
         <dt>
-            @Html.DisplayNameFor(model => model.MiddleName)
+            Contact Info
         </dt>
-
         <dd>
-            @Html.DisplayFor(model => model.MiddleName)
+            <ul>
+                @{ if (ContactList != null)
+                 {
+                     foreach (var Contact in ContactList)
+                     {
+                        <li>@Contact.MobileNumber</li>
+                     }
+                 }
+                }
+            </ul>
         </dd>
+        <dd>@Html.ActionLink("Add Contact Detail", "AddContact", new { id = Model.FarmerId }, null)</dd>
 
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.FarmerID }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.FarmerId }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

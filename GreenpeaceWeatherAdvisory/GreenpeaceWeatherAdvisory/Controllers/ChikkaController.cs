@@ -1,14 +1,14 @@
-﻿using GreenpeaceWeatherAdvisory.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Chikka_Test.Models;
+using Chikka_Test;
 
-// NOT FOR USE
-namespace GreenpeaceWeatherAdvisory.Controllers
+namespace Chikka_Test.Controllers
 {
     public class ChikkaController : Controller
     {
@@ -17,7 +17,7 @@ namespace GreenpeaceWeatherAdvisory.Controllers
         public ActionResult SendRequest()
         {
             ChikkaSendRequestVM vm = new ChikkaSendRequestVM();
-            vm.Message = "HAHAHAHA!";
+
 
             using (WebClient wc = new WebClient())
             {
