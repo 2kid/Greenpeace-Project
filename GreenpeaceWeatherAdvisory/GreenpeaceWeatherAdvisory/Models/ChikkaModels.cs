@@ -47,6 +47,7 @@ namespace GreenpeaceWeatherAdvisory.Models
     {
         [Key]
         public int RegionId { get; set; }
+        [DataType(DataType.MultilineText)]
         public string Message { get; set; }
 
         public string ParameterString(string mobileNumber, int messageId)

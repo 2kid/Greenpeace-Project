@@ -6,12 +6,11 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using GreenpeaceWeatherAdvisory.Models;
 using System.Threading.Tasks;
 using Microsoft.Owin.Security;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
-using GreenPeaceWeatherAdvisory.Models;
+using GreenpeaceWeatherAdvisory.Models;
 
 namespace GreenpeaceWeatherAdvisory.Controllers
 {
@@ -78,7 +77,7 @@ namespace GreenpeaceWeatherAdvisory.Controllers
             {
                 var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
        
-                var user = new ApplicationUser { UserName = model.Username, Email = model.Email,FirstName=model.FirstName,LastName=model.LastName};
+                var user = new ApplicationUser (){ UserName = model.Username, Email = model.Email,FirstName=model.FirstName,LastName=model.LastName};
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -86,8 +85,9 @@ namespace GreenpeaceWeatherAdvisory.Controllers
                  
                     return RedirectToAction("Index", "Home");
                 }
+                AddErrors(result);
             }
-
+   
             // If we got this far, something failed, redisplay form
             return View(model);
         }
@@ -131,6 +131,7 @@ namespace GreenpeaceWeatherAdvisory.Controllers
                         var result = _userManager.ChangePassword(user.Id, oldPassword, registerViewModel.Password);
                         if (!result.Succeeded)
                         {
+                           AddErrors(result);
                            return View(registerViewModel);
                         }
                 }
@@ -176,6 +177,15 @@ namespace GreenpeaceWeatherAdvisory.Controllers
             }
             return RedirectToAction("Index");
          
+        }
+
+
+        private void AddErrors(IdentityResult result)
+        {
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error);
+            }
         }
 
         protected override void Dispose(bool disposing)

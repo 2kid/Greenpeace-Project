@@ -8,14 +8,14 @@ namespace GreenpeaceWeatherAdvisory.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<GreenpeaceWeatherAdvisory.Models.DBContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<GreenpeaceWeatherAdvisory.Models.ApplicationDbContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(GreenpeaceWeatherAdvisory.Models.DBContext context)
+        protected override void Seed(GreenpeaceWeatherAdvisory.Models.ApplicationDbContext context)
         {
             bool success = false;
 
@@ -38,7 +38,7 @@ namespace GreenpeaceWeatherAdvisory.Migrations
             {
                 UserName = "sa",
                 Email = "admin@yahoo.com"
-             
+
             };
             var adminresult = UserManager.Create(newUser, password);
             //            Add User Admin to Role Admin

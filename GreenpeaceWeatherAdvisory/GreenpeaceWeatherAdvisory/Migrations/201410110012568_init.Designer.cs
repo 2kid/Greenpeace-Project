@@ -13,7 +13,7 @@ namespace GreenpeaceWeatherAdvisory.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201410071458584_init"; }
+            get { return "201410110012568_init"; }
         }
         
         string IMigrationMetadata.Source

@@ -11,8 +11,8 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Owin;
 using GreenpeaceWeatherAdvisory;
-using GreenPeaceWeatherAdvisory.Models;
 using GreenpeaceWeatherAdvisory.Models;
+using System.Net;
 
 namespace GreenPeaceWeatherAdvisory.Controllers
 {
@@ -20,7 +20,7 @@ namespace GreenPeaceWeatherAdvisory.Controllers
     public class AccountController : Controller
     {
         private ApplicationUserManager _userManager;
-
+        DBContext db = new DBContext();
         public AccountController()
         {
         }
@@ -75,6 +75,26 @@ namespace GreenPeaceWeatherAdvisory.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "SuperAdmin, Admin")]
+        public ActionResult RegisterIndex()
+        {
+            RoleManager<ApplicationRole> _roleManager = new RoleManager<ApplicationRole>(
+       new RoleStore<ApplicationRole>(new ApplicationDbContext()));
+
+            var users = _roleManager.Roles.Single(x => x.Name == "Admin").Users;
+
+            //  List<ApplicationUser> userList = db.Users.ToList();
+            List<RegisterViewModel> model = new List<RegisterViewModel>();
+
+            foreach (IdentityUserRole user in users)
+            {
+                ApplicationUser targetUser = db.Users.Find(user.UserId);
+                if (targetUser.UserName != "sa")
+                    model.Add(new RegisterViewModel { Username = targetUser.UserName, FirstName = targetUser.FirstName, LastName = targetUser.LastName, Email = targetUser.Email });
+            }
+            return View(model);
+        }
+
         //
         // GET: /Account/Register
         [AllowAnonymous]
@@ -92,18 +112,12 @@ namespace GreenPeaceWeatherAdvisory.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser() { UserName = model.Username, FirstName = model.FirstName,LastName=model.LastName, Email = model.Email };
                 IdentityResult result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await SignInAsync(user, isPersistent: false);
-
-                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
+                    result = UserManager.AddToRole(user.Id, "Admin");
+                   // await SignInAsync(user, isPersistent: false);
                     return RedirectToAction("Index", "Home");
                 }
                 else
@@ -114,6 +128,92 @@ namespace GreenPeaceWeatherAdvisory.Controllers
 
             // If we got this far, something failed, redisplay form
             return View(model);
+        }
+
+        [Authorize(Roles = "SuperAdmin")]
+        // GET: /Account/Delete
+        public ActionResult DeleteAdmin(string id)
+        {
+
+            if (String.IsNullOrEmpty(id))
+            {
+                return RedirectToAction("Index", "Home");
+
+            }
+            ApplicationUser targetUser = db.Users.Where(r => r.UserName == id).Single();
+
+            return View(new RegisterViewModel { Username = targetUser.UserName, FirstName = targetUser.FirstName, LastName = targetUser.LastName, Email = targetUser.Email });
+
+        }
+
+        //
+        // POST: /Account/Delete
+        [HttpPost, ActionName("DeleteAdmin")]
+        [Authorize(Roles = "SuperAdmin")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteAdminConfirm(string id)
+        {
+            if (String.IsNullOrEmpty(id))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            DBContext db = new DBContext();
+            if (ModelState.IsValid)
+            {
+                ApplicationUser user = db.Users.Where(r => r.UserName == id).Single();
+                db.Users.Remove(user);
+                db.SaveChanges();
+                return RedirectToAction("RegisterIndex");
+            }
+
+            // If we got this far, something failed, redisplay form
+            return RedirectToAction("Index", "Home");
+        }
+
+        public ActionResult EditAdmin(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            ApplicationUser user = db.Users.Where(r => r.UserName == id).Single();
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
+            RegisterViewModel model = new RegisterViewModel() { Username = user.UserName, FirstName = user.FirstName, LastName = user.LastName, Email = user.Email };
+
+            return View(model);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditAdmin(RegisterViewModel registerViewModel, string oldPassword)
+        {
+            if (ModelState.IsValid)
+            {
+                UserManager<ApplicationUser> _userManager = new UserManager<ApplicationUser>(
+      new UserStore<ApplicationUser>(new ApplicationDbContext()));
+
+                ApplicationUser user = db.Users.Where(r => r.UserName == registerViewModel.Username).Single();
+                user.FirstName = registerViewModel.FirstName;
+                user.LastName = registerViewModel.LastName;
+                user.Email = registerViewModel.Email;
+                if (registerViewModel.Password != "" && registerViewModel.Password != null)
+                {
+                    //any 6 character password is valid
+                    var result = _userManager.ChangePassword(user.Id, oldPassword, registerViewModel.Password);
+                    if (!result.Succeeded)
+                    {
+                        AddErrors(result);
+                        return View(registerViewModel);
+                    }
+                }
+                db.SaveChanges();
+                return RedirectToAction("RegisterIndex");
+            }
+            return View(registerViewModel);
         }
 
         //

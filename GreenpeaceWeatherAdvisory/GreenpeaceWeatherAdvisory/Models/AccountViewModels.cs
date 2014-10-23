@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNet.Identity.EntityFramework;
 using System.ComponentModel.DataAnnotations;
 
-namespace GreenPeaceWeatherAdvisory.Models
+namespace GreenpeaceWeatherAdvisory.Models
 {
     public class ExternalLoginConfirmationViewModel
     {

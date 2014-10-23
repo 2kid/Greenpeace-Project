@@ -17,9 +17,15 @@ namespace GreenpeaceWeatherAdvisory.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Farmers
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(string SearchFarmer)
         {
             var farmers = db.Farmers.Include(f => f.Region);
+           
+            if(SearchFarmer!=null&& SearchFarmer!="")
+            {
+                farmers = db.Farmers.Where(r => r.LastName.Contains(SearchFarmer)).Include(f => f.Region);
+            }
+          
             return View(await farmers.ToListAsync());
         }
 
@@ -158,6 +164,25 @@ namespace GreenpeaceWeatherAdvisory.Controllers
             }
 
             return View(contactDetail);
+        }
+
+        // Contact Delete
+        // GET: Farmers/Delete/5
+        public async Task<ActionResult> ContactDelete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            ContactDetail contact = await db.ContactDetails.FindAsync(id);
+            if (contact == null)
+            {
+                return HttpNotFound();
+            }
+            
+            db.ContactDetails.Remove(contact);
+            await db.SaveChangesAsync();
+            return RedirectToAction("Details", new { id = contact.FarmerId } );
         }
 
         protected override void Dispose(bool disposing)

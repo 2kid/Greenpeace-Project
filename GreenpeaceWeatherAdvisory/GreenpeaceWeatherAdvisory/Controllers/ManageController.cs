@@ -7,7 +7,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using GreenpeaceWeatherAdvisory.Models;
-using GreenPeaceWeatherAdvisory.Controllers;
+using GreenpeaceWeatherAdvisory.Controllers;
 
 namespace GreenpeaceWeatherAdvisory.Controllers
 {

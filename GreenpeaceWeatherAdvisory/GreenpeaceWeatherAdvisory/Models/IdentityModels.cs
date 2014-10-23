@@ -2,9 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
-using GreenpeaceWeatherAdvisory.Models;
 using System.Data.Entity;
-using GreenPeaceWeatherAdvisory.Models;
 using System.Collections.Generic;
 
 namespace GreenpeaceWeatherAdvisory.Models
@@ -40,6 +38,8 @@ namespace GreenpeaceWeatherAdvisory.Models
         {
             return new ApplicationDbContext();
         }
+
+        public System.Data.Entity.DbSet<GreenpeaceWeatherAdvisory.Models.ChikkaSendRequestVM> ChikkaSendRequestVMs { get; set; }
     }
 
 

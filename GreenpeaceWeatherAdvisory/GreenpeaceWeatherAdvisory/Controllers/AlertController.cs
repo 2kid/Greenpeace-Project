@@ -17,8 +17,14 @@ namespace GreenpeaceWeatherAdvisory.Controllers
     {
         ApplicationDbContext db = new ApplicationDbContext();
 
-        // Alert
         public ActionResult Index()
+        {
+            List<ChikkaMessage> list = db.ChikkaMessages.ToList();
+            return View(list);
+        }
+
+        // Alert
+        public ActionResult Create()
         {
             ViewBag.RegionId = new SelectList(db.Regions, "RegionId", "Name");
             return View();
@@ -26,7 +32,7 @@ namespace GreenpeaceWeatherAdvisory.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Index([Bind(Include = "RegionId,Message")] ChikkaSendRequestVM vm)
+        public async Task<ActionResult> Create([Bind(Include = "RegionId,Message")] ChikkaSendRequestVM vm)
         {
             if (ModelState.IsValid)
             {
@@ -42,13 +48,16 @@ namespace GreenpeaceWeatherAdvisory.Controllers
                     db.ChikkaMessages.Add(message);
 
                     message = null;
-                   // db.SaveChanges();
+                    db.SaveChanges();
                     message = db.ChikkaMessages.OrderByDescending(m => m.ChikkaMessageId).First();
 
                     try
                     {
                         wc.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
                         string HtmlResult = wc.UploadString(Helper.Chikka.RequestUrl, vm.ParameterString(Contact.MobileNumber, message.ChikkaMessageId));
+                        message.Status = "Sent";
+                        db.Entry(message).State = EntityState.Modified;
+                        db.SaveChanges();
                     }
                     catch (WebException exception)
                     {
