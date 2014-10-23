@@ -7,60 +7,31 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GreenpeaceWeatherAdvisory.Models
 {
-    public class Region
-   {
-        [Key]
-        public int RegionId { get; set; }
-        [Required]
-        public string Name { get; set; }
-    }
-
-    public class ContactDetail
+  
+    public class Recipient
     {
-        [Key]
-        public int ContactDetailId { get; set; }
-        [Required]
-        [Display(Name = "Mobile Number")]
-        public string MobileNumber { get; set; }
-        [Required]
-        public int FarmerId { get; set; }
-
-        [ForeignKey("FarmerId")]
-        public virtual Farmer Farmer { get; set; }
-    }
-
-    public class ChikkaMessage
-    {
-        [Key]
-        public int ChikkaMessageId { get; set; }
-        [Required]
-        public string Message { get; set; }
+        public int RecipientId { get; set; }
         public string Status { get; set; }
-        [Required]
         public int ContactId { get; set; }
+        public int AdvisoryId { get; set; }
 
-        [ForeignKey("ContactId")]
-        public virtual ContactDetail ContactDetail { get; set; }
+        public virtual Advisory Advisory { get; set; }
     }
 
-    public class ChikkaSendRequestVM
+    public class Advisory
     {
-        [Key]
-        public int RegionId { get; set; }
-        [DataType(DataType.MultilineText)]
+        public int AdvisoryId { get; set; }
         public string Message { get; set; }
-
-        public string ParameterString(string mobileNumber, int messageId)
-        {
-            return "message_type=" + Helper.Chikka.MessageType
-                + "&mobile_number=" + mobileNumber
-                + "&shortcode=" + Helper.Chikka.ShortCode
-                + "&message_id=" + messageId
-                + "&message=" + Message
-                + "&client_id=" + Helper.Chikka.ClientId
-                + "&secret_key=" + Helper.Chikka.SecretKey;
-        }
+        public DateTime TimeStamp { get; set; }
     }
 
+    public class Feedback
+    {
+        public int FeedbackId { get; set; }
+        public string Message { get; set; }
+        public DateTime TimeStamp { get; set; }
+        public string MobileNumber { get; set; }
+        public int Shortcode { get; set; }
+    }
 
 }

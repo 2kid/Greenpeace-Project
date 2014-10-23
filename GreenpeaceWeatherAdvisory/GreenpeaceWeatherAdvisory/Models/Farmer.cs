@@ -19,11 +19,30 @@ namespace GreenpeaceWeatherAdvisory.Models
 
         public virtual ICollection<ContactDetail> MobileNumbers { get; set; }
        
-        [Required]
-        public int RegionId { get; set; }
+        //[Required]
+        //public int RegionId { get; set; }
 
-        [ForeignKey("RegionId")]
-        public virtual Region Region { get; set; }
-    
+        //[ForeignKey("RegionId")]
+        //public virtual Region Region { get; set; }
+    }
+
+    //public class Region
+    //{
+    //    public int RegionId { get; set; }
+    //    [Required]
+    //    public string Name { get; set; }
+    //}
+
+    public class ContactDetail
+    {
+        public int ContactDetailId { get; set; }
+        [Required]
+        [Display(Name = "Mobile Number")]
+        public string MobileNumber { get; set; }
+        [Required]
+        public int FarmerId { get; set; }
+
+        [ForeignKey("FarmerId")]
+        public virtual Farmer Farmer { get; set; }
     }
 }

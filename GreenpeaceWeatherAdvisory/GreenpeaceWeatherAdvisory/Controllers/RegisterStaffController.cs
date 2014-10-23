@@ -17,7 +17,7 @@ namespace GreenpeaceWeatherAdvisory.Controllers
     [Authorize(Roles = "SuperAdmin,Admin")]
     public class RegisterStaffController : Controller
     {
-        private DBContext db = new DBContext();
+        private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: RegisterStaff
         //[Authorize(Roles = "SuperAdmin")]

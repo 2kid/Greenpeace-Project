@@ -29,8 +29,9 @@ namespace GreenpeaceWeatherAdvisory.Models
         {
         }
 
-        public DbSet<ChikkaMessage> ChikkaMessages { get; set; }
-        public DbSet<Region> Regions { get; set; }
+        public DbSet<Feedback> Feedback { get; set; }
+        public DbSet<Recipient> Recipients { get; set; }
+        public DbSet<Advisory> Advisory { get; set; }
         public DbSet<Farmer> Farmers { get; set; }
         public DbSet<ContactDetail> ContactDetails { get; set; }
 
@@ -39,7 +40,6 @@ namespace GreenpeaceWeatherAdvisory.Models
             return new ApplicationDbContext();
         }
 
-        public System.Data.Entity.DbSet<GreenpeaceWeatherAdvisory.Models.ChikkaSendRequestVM> ChikkaSendRequestVMs { get; set; }
     }
 
 

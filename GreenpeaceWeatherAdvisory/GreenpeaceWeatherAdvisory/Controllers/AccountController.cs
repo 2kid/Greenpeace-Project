@@ -20,7 +20,7 @@ namespace GreenPeaceWeatherAdvisory.Controllers
     public class AccountController : Controller
     {
         private ApplicationUserManager _userManager;
-        DBContext db = new DBContext();
+        ApplicationDbContext db = new ApplicationDbContext();
         public AccountController()
         {
         }
@@ -157,7 +157,7 @@ namespace GreenPeaceWeatherAdvisory.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
-            DBContext db = new DBContext();
+            ApplicationDbContext db = new ApplicationDbContext();
             if (ModelState.IsValid)
             {
                 ApplicationUser user = db.Users.Where(r => r.UserName == id).Single();

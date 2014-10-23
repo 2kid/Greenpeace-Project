@@ -19,11 +19,11 @@ namespace GreenpeaceWeatherAdvisory.Controllers
         // GET: Farmers
         public async Task<ActionResult> Index(string SearchFarmer)
         {
-            var farmers = db.Farmers.Include(f => f.Region);
+            var farmers = db.Farmers.Include(f => f.FarmerID);
            
-            if(SearchFarmer!=null&& SearchFarmer!="")
+            if(!string.IsNullOrEmpty(SearchFarmer))
             {
-                farmers = db.Farmers.Where(r => r.LastName.Contains(SearchFarmer)).Include(f => f.Region);
+                farmers = db.Farmers.Where(r => r.LastName.Contains(SearchFarmer)).Include(f => f.FarmerID);
             }
           
             return View(await farmers.ToListAsync());
@@ -49,7 +49,6 @@ namespace GreenpeaceWeatherAdvisory.Controllers
         // GET: Farmers/Create
         public ActionResult Create()
         {
-            ViewBag.RegionId = new SelectList(db.Regions, "RegionId", "Name");
             return View();
         }
 
@@ -58,7 +57,7 @@ namespace GreenpeaceWeatherAdvisory.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "FarmerId,LastName,FirstName,MiddleName,RegionId")] Farmer farmer)
+        public async Task<ActionResult> Create([Bind(Include = "FarmerId,LastName,FirstName,MiddleName")] Farmer farmer)
         {
             if (ModelState.IsValid)
             {
@@ -67,7 +66,6 @@ namespace GreenpeaceWeatherAdvisory.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.RegionId = new SelectList(db.Regions, "RegionId", "Name", farmer.RegionId);
             return View(farmer);
         }
 
@@ -83,7 +81,6 @@ namespace GreenpeaceWeatherAdvisory.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.RegionId = new SelectList(db.Regions, "RegionId", "Name", farmer.RegionId);
             return View(farmer);
         }
 
@@ -92,7 +89,7 @@ namespace GreenpeaceWeatherAdvisory.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "FarmerId,LastName,FirstName,MiddleName,RegionId")] Farmer farmer)
+        public async Task<ActionResult> Edit([Bind(Include = "FarmerId,LastName,FirstName,MiddleName")] Farmer farmer)
         {
             if (ModelState.IsValid)
             {
@@ -100,7 +97,6 @@ namespace GreenpeaceWeatherAdvisory.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.RegionId = new SelectList(db.Regions, "RegionId", "Name", farmer.RegionId);
             return View(farmer);
         }
 
@@ -128,61 +124,6 @@ namespace GreenpeaceWeatherAdvisory.Controllers
             db.Farmers.Remove(farmer);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
-        }
-
-        // GET: ContactDetails/AddContact
-        public ActionResult AddContact(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Farmer farmer = db.Farmers.Find(id.Value);
-            if (farmer == null)
-            {
-                return HttpNotFound();
-            }
-
-            ContactDetail contactDetail = new ContactDetail();
-            contactDetail.FarmerId = id.Value;
-
-            return View(contactDetail);
-        }
-
-        // POST: ContactDetails/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> AddContact([Bind(Include = "MobileNumber,FarmerId")] ContactDetail contactDetail)
-        {
-            if (ModelState.IsValid)
-            {
-                db.ContactDetails.Add(contactDetail);
-                await db.SaveChangesAsync();
-                return RedirectToAction("Details", new { id = contactDetail.FarmerId });
-            }
-
-            return View(contactDetail);
-        }
-
-        // Contact Delete
-        // GET: Farmers/Delete/5
-        public async Task<ActionResult> ContactDelete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            ContactDetail contact = await db.ContactDetails.FindAsync(id);
-            if (contact == null)
-            {
-                return HttpNotFound();
-            }
-            
-            db.ContactDetails.Remove(contact);
-            await db.SaveChangesAsync();
-            return RedirectToAction("Details", new { id = contact.FarmerId } );
         }
 
         protected override void Dispose(bool disposing)
