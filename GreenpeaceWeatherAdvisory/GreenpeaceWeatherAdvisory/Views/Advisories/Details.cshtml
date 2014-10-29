@@ -1,4 +1,5 @@
-﻿@model GreenpeaceWeatherAdvisory.Models.Advisory
+﻿@model IEnumerable<GreenpeaceWeatherAdvisory.Models.RecipientViewModel>
+
 
 @{
     ViewBag.Title = "Details";
@@ -9,26 +10,25 @@
 <div>
     <h4>Advisory</h4>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Message)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Message)
-        </dd>
+    <p>@ViewBag.Advisory</p>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.TimeStamp)
-        </dt>
+    <table class="table">
+        <tr>
+            <th>
+                Contact Number
+            </th>
+            <th>
+                Status
+            </th>
+        </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.ContactNumber</td>
+                    <td>@item.Status</td>
+                </tr>
+            }
+    </table>
 
-        <dd>
-            @Html.DisplayFor(model => model.TimeStamp)
-        </dd>
-
-    </dl>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.AdvisoryId }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

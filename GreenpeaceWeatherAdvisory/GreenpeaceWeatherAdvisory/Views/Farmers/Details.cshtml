@@ -18,30 +18,23 @@
         <dd>
             @Html.DisplayFor(model => model.LastName), @Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.MiddleName)
         </dd>
-
-        <dt>
-            Region
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Region.Name)
-        </dd>
        
         <dt>
             Contact Info
         </dt>
         <dd>
-            <ul>
+            <ul class="list-group col-md-6">
                 @{ if (ContactList != null)
                  {
-                     foreach (var Contact in ContactList)
+                     foreach (var item in ContactList)
                      {
-                        <li><span>@Contact.MobileNumber &nbsp;</span>@Html.ActionLink("Delete", "ContactDelete", new { id = @Contact.ContactDetailId })</li>
+                        <li class="list-group-item"><span>@item.MobileNumber &nbsp;</span>@Html.ActionLink("Delete", "Delete", "ContactDetails", new { id = @item.ContactDetailId }, new { @class = "navbar-right"})</li>
                      }
                  }
                 }
             </ul>
         </dd>
-        <dd>@Html.ActionLink("Add Contact Detail", "AddContact", new { id = Model.FarmerID }, null)</dd>
+        <dd>@Html.ActionLink("Add Contact Detail", "Create", "ContactDetails", new { id = Model.FarmerID }, null)</dd>
 
     </dl>
 </div>

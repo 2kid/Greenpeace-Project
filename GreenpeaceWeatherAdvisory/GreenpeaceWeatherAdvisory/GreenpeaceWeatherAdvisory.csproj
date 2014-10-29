@@ -175,6 +175,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdvisoriesController.cs" />
+    <Compile Include="Controllers\ContactDetailsController.cs" />
     <Compile Include="Controllers\FarmersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -432,8 +433,6 @@
     <Content Include="Views\Account\DeleteAdmin.cshtml" />
     <Content Include="Views\Account\RegisterIndex.cshtml" />
     <Content Include="Views\Account\EditAdmin.cshtml" />
-    <Content Include="Views\Alert\Create.cshtml" />
-    <Content Include="Views\Chikka\Index.cshtml" />
     <Content Include="Views\Regions\Create.cshtml" />
     <Content Include="Views\Regions\Delete.cshtml" />
     <Content Include="Views\Regions\Details.cshtml" />
@@ -442,12 +441,12 @@
     <Content Include="Views\Farmers\AddContact.cshtml">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="Views\Alert\Index.cshtml" />
     <Content Include="Views\Advisories\Create.cshtml" />
-    <Content Include="Views\Advisories\Delete.cshtml" />
     <Content Include="Views\Advisories\Details.cshtml" />
-    <Content Include="Views\Advisories\Edit.cshtml" />
     <Content Include="Views\Advisories\Index.cshtml" />
+    <Content Include="Views\ContactDetails\Create.cshtml" />
+    <Content Include="Views\ContactDetails\Delete.cshtml" />
+    <Content Include="Views\ContactDetails\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

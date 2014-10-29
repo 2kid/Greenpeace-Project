@@ -36,8 +36,18 @@ namespace GreenpeaceWeatherAdvisory.Controllers
             }
 
             ViewBag.Advisory = advisory.Message;
-            List<Recipient> list = db.Recipients.Where(m => m.AdvisoryId == id).ToList();
+            List<Recipient> RecipientList = db.Recipients.Where(m => m.AdvisoryId == id).ToList();
+            List<ContactDetail> contactList = db.ContactDetails.ToList();
+            List<RecipientViewModel> list = new List<RecipientViewModel>();
 
+            foreach (var item in RecipientList)
+            {
+                RecipientViewModel r = new RecipientViewModel();
+                r.Status = item.Status;
+                r.ContactNumber = contactList.Find(m => m.ContactDetailId == item.ContactId).MobileNumber;
+                list.Add(r);
+            }
+            
             return View(list);
         }
 
@@ -54,6 +64,8 @@ namespace GreenpeaceWeatherAdvisory.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "AdvisoryId,Message")] Advisory advisory)
         {
+            advisory.TimeStamp = DateTime.Now;
+
             if (ModelState.IsValid)
             {
                 db.Advisory.Add(advisory);
@@ -97,7 +109,7 @@ namespace GreenpeaceWeatherAdvisory.Controllers
             }
 
             return View(advisory);
-        }
+        }   
 
 
         protected override void Dispose(bool disposing)

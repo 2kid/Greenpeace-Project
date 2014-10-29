@@ -11,119 +11,103 @@ using GreenpeaceWeatherAdvisory.Models;
 
 namespace GreenpeaceWeatherAdvisory.Controllers
 {
-    [Authorize]
-    public class FarmersController : Controller
+    public class ContactDetailsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: Farmers
-        public async Task<ActionResult> Index(string SearchFarmer)
-        {
-            var farmers = await db.Farmers.ToListAsync();
-
-            //if (!string.IsNullOrEmpty(SearchFarmer))
-            //{
-            //    farmers = db.Farmers.Where(r => r.LastName.Contains(SearchFarmer)).Include(f => f.FarmerID);
-            //}
-          
-            return View(farmers);
-        }
-
-        // GET: Farmers/Details/5
-        public async Task<ActionResult> Details(int? id)
+        // GET: ContactDetails/Create
+        public ActionResult Create(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Farmer farmer = await db.Farmers.FindAsync(id);
+            Farmer farmer = db.Farmers.Find(id);
             if (farmer == null)
             {
                 return HttpNotFound();
             }
 
-            ViewBag.ContactDetails = db.ContactDetails.Where(m => m.FarmerId == id).ToList();
-            return View(farmer);
+            ContactDetail contactDetail = new ContactDetail();
+            contactDetail.FarmerId = farmer.FarmerID;
+
+            return View(contactDetail);
         }
 
-        // GET: Farmers/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Farmers/Create
+        // POST: ContactDetails/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "FarmerId,LastName,FirstName,MiddleName")] Farmer farmer)
+        public async Task<ActionResult> Create([Bind(Include = "MobileNumber,FarmerId")] ContactDetail contactDetail)
         {
             if (ModelState.IsValid)
             {
-                db.Farmers.Add(farmer);
+                db.ContactDetails.Add(contactDetail);
                 await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "Farmers", new { id = contactDetail.FarmerId });
             }
 
-            return View(farmer);
+            return View(contactDetail);
         }
 
-        // GET: Farmers/Edit/5
+        // GET: ContactDetails/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Farmer farmer = await db.Farmers.FindAsync(id);
-            if (farmer == null)
+            ContactDetail contactDetail = await db.ContactDetails.FindAsync(id);
+            if (contactDetail == null)
             {
                 return HttpNotFound();
             }
-            return View(farmer);
+
+            return View(contactDetail);
         }
 
-        // POST: Farmers/Edit/5
+        // POST: ContactDetails/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "FarmerId,LastName,FirstName,MiddleName")] Farmer farmer)
+        public async Task<ActionResult> Edit([Bind(Include = "ContactDetailId,MobileNumber,FarmerId")] ContactDetail contactDetail)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(farmer).State = EntityState.Modified;
+                db.Entry(contactDetail).State = EntityState.Modified;
                 await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "Farmers", new { id = contactDetail.FarmerId });
             }
-            return View(farmer);
+            
+            return View(contactDetail);
         }
 
-        // GET: Farmers/Delete/5
+        // GET: ContactDetails/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Farmer farmer = await db.Farmers.FindAsync(id);
-            if (farmer == null)
+            ContactDetail contactDetail = await db.ContactDetails.FindAsync(id);
+            if (contactDetail == null)
             {
                 return HttpNotFound();
             }
-            return View(farmer);
+            return View(contactDetail);
         }
 
-        // POST: Farmers/Delete/5
+        // POST: ContactDetails/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Farmer farmer = await db.Farmers.FindAsync(id);
-            db.Farmers.Remove(farmer);
+            ContactDetail contactDetail = await db.ContactDetails.FindAsync(id);
+            db.ContactDetails.Remove(contactDetail);
             await db.SaveChangesAsync();
-            return RedirectToAction("Index");
+            return RedirectToAction("Details", "Farmers", new { id = contactDetail.FarmerId });
         }
 
         protected override void Dispose(bool disposing)
