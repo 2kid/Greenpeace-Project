@@ -34,4 +34,13 @@ namespace GreenpeaceWeatherAdvisory.Models
         public int Shortcode { get; set; }
     }
 
+    public class FeedbackAPIModel
+    {
+        public int request_id { get; set; }
+        public int shortcode { get; set; }
+        public string message { get; set; }
+        public string mobile_number { get; set; }
+        public DateTime timestamp { get; set; }
+    }
+
 }

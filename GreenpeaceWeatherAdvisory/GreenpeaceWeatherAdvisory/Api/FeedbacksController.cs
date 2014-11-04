@@ -19,22 +19,24 @@ namespace GreenpeaceWeatherAdvisory.Api
 
         // POST: api/Feedbacks
         [ResponseType(typeof(Feedback))]
-        public async Task<IHttpActionResult> PostFeedback(Feedback feedback)
+        public async Task<IHttpActionResult> PostFeedback(FeedbackAPIModel feedback)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Feedback.Add(feedback);
+            Feedback f = new Feedback();
+            f.FeedbackId = feedback.request_id;
+            f.Message = feedback.message;
+            f.MobileNumber = feedback.mobile_number;
+            f.TimeStamp = feedback.timestamp;
+
+            db.Feedback.Add(f);
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = feedback.FeedbackId }, feedback);
+            return CreatedAtRoute("DefaultApi", new { id = f.FeedbackId }, feedback);
         }
 
-        private bool FeedbackExists(int id)
-        {
-            return db.Feedback.Count(e => e.FeedbackId == id) > 0;
-        }
     }
 }
