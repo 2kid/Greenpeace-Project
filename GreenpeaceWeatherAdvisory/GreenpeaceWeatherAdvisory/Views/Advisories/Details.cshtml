@@ -16,6 +16,9 @@
     <table class="table">
         <tr>
             <th>
+                Farmer Name
+            </th>
+            <th>
                 Contact Number
             </th>
             <th>
@@ -25,6 +28,7 @@
             @foreach (var item in Model)
             {
                 <tr>
+                    <td>@item.FarmerName</td>
                     <td>@item.ContactNumber</td>
                     <td>@item.Status</td>
                 </tr>

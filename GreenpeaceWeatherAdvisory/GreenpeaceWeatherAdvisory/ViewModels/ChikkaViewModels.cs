@@ -11,6 +11,8 @@ namespace GreenpeaceWeatherAdvisory.Models
         public string Status { get; set; }
         [Display(Name = "Contact Number")]
         public string ContactNumber { get; set; }
+        [Display(Name = "Farmer Name")]
+        public string FarmerName { get; set; }
     }
 
 }

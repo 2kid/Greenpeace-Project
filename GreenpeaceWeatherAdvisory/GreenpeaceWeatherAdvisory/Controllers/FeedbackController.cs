@@ -13,7 +13,7 @@ namespace GreenpeaceWeatherAdvisory.Controllers
         public ActionResult Index()
         {
             ApplicationDbContext db = new ApplicationDbContext();
-            IEnumerable<Feedback> list = db.Feedback;
+            IEnumerable<Feedback> list = db.Feedback.OrderByDescending(m => m.TimeStamp);
             return View(list);
         }
     }

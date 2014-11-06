@@ -19,7 +19,7 @@ namespace GreenpeaceWeatherAdvisory.Controllers
         // GET: Advisories
         public async Task<ActionResult> Index()
         {
-            return View(await db.Advisory.ToListAsync());
+            return View(await db.Advisory.OrderByDescending(m => m.TimeStamp).ToListAsync());
         }
 
         // GET: Advisories/Details/5
@@ -45,9 +45,12 @@ namespace GreenpeaceWeatherAdvisory.Controllers
                 RecipientViewModel r = new RecipientViewModel();
                 r.Status = item.Status;
                 r.ContactNumber = contactList.Find(m => m.ContactDetailId == item.ContactId).MobileNumber;
+                Farmer f = contactList.Find(m => m.ContactDetailId == item.ContactId).Farmer;
+                string name = f.LastName + ", " + f.FirstName + " " + f.MiddleName[0] + ".";
+                r.FarmerName = name;
                 list.Add(r);
             }
-            
+
             return View(list);
         }
 

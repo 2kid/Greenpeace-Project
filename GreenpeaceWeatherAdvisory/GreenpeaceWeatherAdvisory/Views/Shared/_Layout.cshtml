@@ -34,12 +34,12 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                   @if (User.IsInRole("Admin") || User.IsInRole("Staff") || User.IsInRole("SuperAdmin")) { 
-                      <li>@Html.ActionLink("Advisories", "Index", "Advisories")</li>
-                    <li>@Html.ActionLink("Farmers", "Index", "Farmers")</li>
-                    <li>@Html.ActionLink("Regions", "Index", "Regions")</li>
+                     <li>@Html.ActionLink("Advisories", "Index", "Advisories")</li>
+                     <li>@Html.ActionLink("Farmers", "Index", "Farmers")</li>
+                     <li>@Html.ActionLink("Feedback", "Index", "Feedback")</li>
+                    @*<li>@Html.ActionLink("Regions", "Index", "Regions")</li>*@
                   }
                    @if(User.IsInRole("SuperAdmin")||User.IsInRole("Admin")){
-                     <li>@Html.ActionLink("Feedback", "Index", "Feedback")</li>
                      <li>@Html.ActionLink("Admins", "RegisterIndex", "Account")</li>
                      <li>@Html.ActionLink("Staff", "Index", "RegisterStaff")</li>  
                        }
